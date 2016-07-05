@@ -1,0 +1,487 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="Navimex_Mo2Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="TCMO_EstatusEnvio">
+          <Key>
+            <PropertyRef Name="CD_EstatusEnvio" />
+          </Key>
+          <Property Name="CD_EstatusEnvio" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TX_EstatusEnvio" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="TCMO_EstatusSolicitud">
+          <Key>
+            <PropertyRef Name="CD_EstatusSolicitud" />
+          </Key>
+          <Property Name="CD_EstatusSolicitud" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TX_EstatusSolicitud" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="TCMO_TipoSolicitud">
+          <Key>
+            <PropertyRef Name="IdTipoSolicitud" />
+          </Key>
+          <Property Name="IdTipoSolicitud" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TX_Descripción" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="TCMO_Trama">
+          <Key>
+            <PropertyRef Name="CD_Trama" />
+          </Key>
+          <Property Name="CD_Trama" Type="int" Nullable="false" />
+          <Property Name="TX_Tabla" Type="varchar" MaxLength="50" />
+          <Property Name="TX_Campo" Type="varchar" MaxLength="50" />
+          <Property Name="NU_Ancho" Type="int" />
+          <Property Name="ES_AnchoVariable" Type="bit" />
+          <Property Name="NU_AnchoVariable" Type="int" />
+          <Property Name="ES_justificadoDerecha" Type="bit" />
+          <Property Name="ES_JustificadoIzquierda" Type="bit" />
+          <Property Name="TX_CaracterDeRelleno" Type="char" MaxLength="1" />
+          <Property Name="NU_Secuencia" Type="int" />
+          <Property Name="TCMO_TipoSolicitud_IdTipoSolicitud" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="TTMO_ResultadoEnvio">
+          <Key>
+            <PropertyRef Name="CD_ResultadoEnvio" />
+          </Key>
+          <Property Name="CD_ResultadoEnvio" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TTMO_Solicitud_CD_Solicitud" Type="int" Nullable="false" />
+          <Property Name="TCMO_EstatusEnvio_CD_EstatusEnvio" Type="int" Nullable="false" />
+          <Property Name="FH_Envio" Type="datetime" />
+          <Property Name="FH_Respuesta" Type="datetime" />
+          <Property Name="TX_Respuesta" Type="varchar" MaxLength="250" />
+          <Property Name="TX_Envio" Type="varchar" MaxLength="208" />
+          <Property Name="TCMO_TipoSolicitud_IdTipoSolicitud" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="TTMO_Solicitud">
+          <Key>
+            <PropertyRef Name="CD_Solicitud" />
+          </Key>
+          <Property Name="CD_Solicitud" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TCMO_EstatusSolicitud_CD_EstatusSolicitud" Type="int" Nullable="false" />
+          <Property Name="NU_job" Type="int" />
+          <Property Name="NU_Serie" Type="int" />
+          <Property Name="NU_customer" Type="int" />
+          <Property Name="NU_deliveryAddress" Type="int" />
+          <Property Name="TX_TermDelivery" Type="varchar" MaxLength="3" />
+          <Property Name="NU_TermPayment" Type="int" />
+          <Property Name="TX_ForwardAgent" Type="varchar" MaxLength="3" />
+          <Property Name="TX_Country" Type="varchar" MaxLength="3" />
+          <Property Name="TX_Refb" Type="varchar" MaxLength="20" />
+          <Property Name="NU_Position" Type="int" />
+          <Property Name="TX_Item" Type="varchar" MaxLength="300" />
+          <Property Name="NU_Quantity" Type="int" />
+          <Property Name="IM_Price" Type="money" />
+          <Property Name="NU_Currency" Type="varchar" MaxLength="3" />
+          <Property Name="IM_Amount" Type="money" />
+          <Property Name="TCMO_TipoSolicitud_IdTipoSolicitud" Type="int" Nullable="false" />
+        </EntityType>
+        <Association Name="TCMO_Trama_TCMO_TipoSolicitud_FK">
+          <End Role="TCMO_TipoSolicitud" Type="Self.TCMO_TipoSolicitud" Multiplicity="1" />
+          <End Role="TCMO_Trama" Type="Self.TCMO_Trama" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TCMO_TipoSolicitud">
+              <PropertyRef Name="IdTipoSolicitud" />
+            </Principal>
+            <Dependent Role="TCMO_Trama">
+              <PropertyRef Name="TCMO_TipoSolicitud_IdTipoSolicitud" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="TTMO_ResultadoEnvio_TCMO_EstatusEnvio_FK">
+          <End Role="TCMO_EstatusEnvio" Type="Self.TCMO_EstatusEnvio" Multiplicity="1" />
+          <End Role="TTMO_ResultadoEnvio" Type="Self.TTMO_ResultadoEnvio" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TCMO_EstatusEnvio">
+              <PropertyRef Name="CD_EstatusEnvio" />
+            </Principal>
+            <Dependent Role="TTMO_ResultadoEnvio">
+              <PropertyRef Name="TCMO_EstatusEnvio_CD_EstatusEnvio" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="TTMO_ResultadoEnvio_TCMO_TipoSolicitud_FK">
+          <End Role="TCMO_TipoSolicitud" Type="Self.TCMO_TipoSolicitud" Multiplicity="1" />
+          <End Role="TTMO_ResultadoEnvio" Type="Self.TTMO_ResultadoEnvio" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TCMO_TipoSolicitud">
+              <PropertyRef Name="IdTipoSolicitud" />
+            </Principal>
+            <Dependent Role="TTMO_ResultadoEnvio">
+              <PropertyRef Name="TCMO_TipoSolicitud_IdTipoSolicitud" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="TTMO_ResultadoEnvio_TTMO_Solicitud_FK">
+          <End Role="TTMO_Solicitud" Type="Self.TTMO_Solicitud" Multiplicity="1" />
+          <End Role="TTMO_ResultadoEnvio" Type="Self.TTMO_ResultadoEnvio" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TTMO_Solicitud">
+              <PropertyRef Name="CD_Solicitud" />
+            </Principal>
+            <Dependent Role="TTMO_ResultadoEnvio">
+              <PropertyRef Name="TTMO_Solicitud_CD_Solicitud" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="TTMO_Solicitud_TCMO_EstatusSolicitud_FK">
+          <End Role="TCMO_EstatusSolicitud" Type="Self.TCMO_EstatusSolicitud" Multiplicity="1" />
+          <End Role="TTMO_Solicitud" Type="Self.TTMO_Solicitud" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TCMO_EstatusSolicitud">
+              <PropertyRef Name="CD_EstatusSolicitud" />
+            </Principal>
+            <Dependent Role="TTMO_Solicitud">
+              <PropertyRef Name="TCMO_EstatusSolicitud_CD_EstatusSolicitud" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="TTMO_Solicitud_TCMO_TipoSolicitud_FK">
+          <End Role="TCMO_TipoSolicitud" Type="Self.TCMO_TipoSolicitud" Multiplicity="1" />
+          <End Role="TTMO_Solicitud" Type="Self.TTMO_Solicitud" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TCMO_TipoSolicitud">
+              <PropertyRef Name="IdTipoSolicitud" />
+            </Principal>
+            <Dependent Role="TTMO_Solicitud">
+              <PropertyRef Name="TCMO_TipoSolicitud_IdTipoSolicitud" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="Navimex_Mo2ModelStoreContainer">
+          <EntitySet Name="TCMO_EstatusEnvio" EntityType="Self.TCMO_EstatusEnvio" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TCMO_EstatusSolicitud" EntityType="Self.TCMO_EstatusSolicitud" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TCMO_TipoSolicitud" EntityType="Self.TCMO_TipoSolicitud" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TCMO_Trama" EntityType="Self.TCMO_Trama" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TTMO_ResultadoEnvio" EntityType="Self.TTMO_ResultadoEnvio" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TTMO_Solicitud" EntityType="Self.TTMO_Solicitud" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="TCMO_Trama_TCMO_TipoSolicitud_FK" Association="Self.TCMO_Trama_TCMO_TipoSolicitud_FK">
+            <End Role="TCMO_TipoSolicitud" EntitySet="TCMO_TipoSolicitud" />
+            <End Role="TCMO_Trama" EntitySet="TCMO_Trama" />
+          </AssociationSet>
+          <AssociationSet Name="TTMO_ResultadoEnvio_TCMO_EstatusEnvio_FK" Association="Self.TTMO_ResultadoEnvio_TCMO_EstatusEnvio_FK">
+            <End Role="TCMO_EstatusEnvio" EntitySet="TCMO_EstatusEnvio" />
+            <End Role="TTMO_ResultadoEnvio" EntitySet="TTMO_ResultadoEnvio" />
+          </AssociationSet>
+          <AssociationSet Name="TTMO_ResultadoEnvio_TCMO_TipoSolicitud_FK" Association="Self.TTMO_ResultadoEnvio_TCMO_TipoSolicitud_FK">
+            <End Role="TCMO_TipoSolicitud" EntitySet="TCMO_TipoSolicitud" />
+            <End Role="TTMO_ResultadoEnvio" EntitySet="TTMO_ResultadoEnvio" />
+          </AssociationSet>
+          <AssociationSet Name="TTMO_ResultadoEnvio_TTMO_Solicitud_FK" Association="Self.TTMO_ResultadoEnvio_TTMO_Solicitud_FK">
+            <End Role="TTMO_Solicitud" EntitySet="TTMO_Solicitud" />
+            <End Role="TTMO_ResultadoEnvio" EntitySet="TTMO_ResultadoEnvio" />
+          </AssociationSet>
+          <AssociationSet Name="TTMO_Solicitud_TCMO_EstatusSolicitud_FK" Association="Self.TTMO_Solicitud_TCMO_EstatusSolicitud_FK">
+            <End Role="TCMO_EstatusSolicitud" EntitySet="TCMO_EstatusSolicitud" />
+            <End Role="TTMO_Solicitud" EntitySet="TTMO_Solicitud" />
+          </AssociationSet>
+          <AssociationSet Name="TTMO_Solicitud_TCMO_TipoSolicitud_FK" Association="Self.TTMO_Solicitud_TCMO_TipoSolicitud_FK">
+            <End Role="TCMO_TipoSolicitud" EntitySet="TCMO_TipoSolicitud" />
+            <End Role="TTMO_Solicitud" EntitySet="TTMO_Solicitud" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="Navimex_Mo2Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="TCMO_EstatusEnvio">
+          <Key>
+            <PropertyRef Name="CD_EstatusEnvio" />
+          </Key>
+          <Property Name="CD_EstatusEnvio" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TX_EstatusEnvio" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="TTMO_ResultadoEnvio" Relationship="Self.TTMO_ResultadoEnvio_TCMO_EstatusEnvio_FK" FromRole="TCMO_EstatusEnvio" ToRole="TTMO_ResultadoEnvio" />
+        </EntityType>
+        <EntityType Name="TCMO_EstatusSolicitud">
+          <Key>
+            <PropertyRef Name="CD_EstatusSolicitud" />
+          </Key>
+          <Property Name="CD_EstatusSolicitud" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TX_EstatusSolicitud" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="TTMO_Solicitud" Relationship="Self.TTMO_Solicitud_TCMO_EstatusSolicitud_FK" FromRole="TCMO_EstatusSolicitud" ToRole="TTMO_Solicitud" />
+        </EntityType>
+        <EntityType Name="TCMO_TipoSolicitud">
+          <Key>
+            <PropertyRef Name="IdTipoSolicitud" />
+          </Key>
+          <Property Name="IdTipoSolicitud" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TX_Descripción" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="TCMO_Trama" Relationship="Self.TCMO_Trama_TCMO_TipoSolicitud_FK" FromRole="TCMO_TipoSolicitud" ToRole="TCMO_Trama" />
+          <NavigationProperty Name="TTMO_ResultadoEnvio" Relationship="Self.TTMO_ResultadoEnvio_TCMO_TipoSolicitud_FK" FromRole="TCMO_TipoSolicitud" ToRole="TTMO_ResultadoEnvio" />
+          <NavigationProperty Name="TTMO_Solicitud" Relationship="Self.TTMO_Solicitud_TCMO_TipoSolicitud_FK" FromRole="TCMO_TipoSolicitud" ToRole="TTMO_Solicitud" />
+        </EntityType>
+        <EntityType Name="TCMO_Trama">
+          <Key>
+            <PropertyRef Name="CD_Trama" />
+          </Key>
+          <Property Name="CD_Trama" Type="Int32" Nullable="false" />
+          <Property Name="TX_Tabla" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="TX_Campo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="NU_Ancho" Type="Int32" />
+          <Property Name="ES_AnchoVariable" Type="Boolean" />
+          <Property Name="NU_AnchoVariable" Type="Int32" />
+          <Property Name="ES_justificadoDerecha" Type="Boolean" />
+          <Property Name="ES_JustificadoIzquierda" Type="Boolean" />
+          <Property Name="TX_CaracterDeRelleno" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="NU_Secuencia" Type="Int32" />
+          <Property Name="TCMO_TipoSolicitud_IdTipoSolicitud" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="TCMO_TipoSolicitud" Relationship="Self.TCMO_Trama_TCMO_TipoSolicitud_FK" FromRole="TCMO_Trama" ToRole="TCMO_TipoSolicitud" />
+        </EntityType>
+        <EntityType Name="TTMO_ResultadoEnvio">
+          <Key>
+            <PropertyRef Name="CD_ResultadoEnvio" />
+          </Key>
+          <Property Name="CD_ResultadoEnvio" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TTMO_Solicitud_CD_Solicitud" Type="Int32" Nullable="false" />
+          <Property Name="TCMO_EstatusEnvio_CD_EstatusEnvio" Type="Int32" Nullable="false" />
+          <Property Name="FH_Envio" Type="DateTime" Precision="3" />
+          <Property Name="FH_Respuesta" Type="DateTime" Precision="3" />
+          <Property Name="TX_Respuesta" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="TX_Envio" Type="String" MaxLength="208" FixedLength="false" Unicode="false" />
+          <Property Name="TCMO_TipoSolicitud_IdTipoSolicitud" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="TCMO_EstatusEnvio" Relationship="Self.TTMO_ResultadoEnvio_TCMO_EstatusEnvio_FK" FromRole="TTMO_ResultadoEnvio" ToRole="TCMO_EstatusEnvio" />
+          <NavigationProperty Name="TCMO_TipoSolicitud" Relationship="Self.TTMO_ResultadoEnvio_TCMO_TipoSolicitud_FK" FromRole="TTMO_ResultadoEnvio" ToRole="TCMO_TipoSolicitud" />
+          <NavigationProperty Name="TTMO_Solicitud" Relationship="Self.TTMO_ResultadoEnvio_TTMO_Solicitud_FK" FromRole="TTMO_ResultadoEnvio" ToRole="TTMO_Solicitud" />
+        </EntityType>
+        <EntityType Name="TTMO_Solicitud">
+          <Key>
+            <PropertyRef Name="CD_Solicitud" />
+          </Key>
+          <Property Name="CD_Solicitud" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TCMO_EstatusSolicitud_CD_EstatusSolicitud" Type="Int32" Nullable="false" />
+          <Property Name="NU_job" Type="Int32" />
+          <Property Name="NU_Serie" Type="Int32" />
+          <Property Name="NU_customer" Type="Int32" />
+          <Property Name="NU_deliveryAddress" Type="Int32" />
+          <Property Name="TX_TermDelivery" Type="String" MaxLength="3" FixedLength="false" Unicode="false" />
+          <Property Name="NU_TermPayment" Type="Int32" />
+          <Property Name="TX_ForwardAgent" Type="String" MaxLength="3" FixedLength="false" Unicode="false" />
+          <Property Name="TX_Country" Type="String" MaxLength="3" FixedLength="false" Unicode="false" />
+          <Property Name="TX_Refb" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="NU_Position" Type="Int32" />
+          <Property Name="TX_Item" Type="String" MaxLength="300" FixedLength="false" Unicode="false" />
+          <Property Name="NU_Quantity" Type="Int32" />
+          <Property Name="IM_Price" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="NU_Currency" Type="String" MaxLength="3" FixedLength="false" Unicode="false" />
+          <Property Name="IM_Amount" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="TCMO_TipoSolicitud_IdTipoSolicitud" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="TCMO_EstatusSolicitud" Relationship="Self.TTMO_Solicitud_TCMO_EstatusSolicitud_FK" FromRole="TTMO_Solicitud" ToRole="TCMO_EstatusSolicitud" />
+          <NavigationProperty Name="TCMO_TipoSolicitud" Relationship="Self.TTMO_Solicitud_TCMO_TipoSolicitud_FK" FromRole="TTMO_Solicitud" ToRole="TCMO_TipoSolicitud" />
+          <NavigationProperty Name="TTMO_ResultadoEnvio" Relationship="Self.TTMO_ResultadoEnvio_TTMO_Solicitud_FK" FromRole="TTMO_Solicitud" ToRole="TTMO_ResultadoEnvio" />
+        </EntityType>
+        <Association Name="TTMO_ResultadoEnvio_TCMO_EstatusEnvio_FK">
+          <End Role="TCMO_EstatusEnvio" Type="Self.TCMO_EstatusEnvio" Multiplicity="1" />
+          <End Role="TTMO_ResultadoEnvio" Type="Self.TTMO_ResultadoEnvio" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TCMO_EstatusEnvio">
+              <PropertyRef Name="CD_EstatusEnvio" />
+            </Principal>
+            <Dependent Role="TTMO_ResultadoEnvio">
+              <PropertyRef Name="TCMO_EstatusEnvio_CD_EstatusEnvio" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="TTMO_Solicitud_TCMO_EstatusSolicitud_FK">
+          <End Role="TCMO_EstatusSolicitud" Type="Self.TCMO_EstatusSolicitud" Multiplicity="1" />
+          <End Role="TTMO_Solicitud" Type="Self.TTMO_Solicitud" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TCMO_EstatusSolicitud">
+              <PropertyRef Name="CD_EstatusSolicitud" />
+            </Principal>
+            <Dependent Role="TTMO_Solicitud">
+              <PropertyRef Name="TCMO_EstatusSolicitud_CD_EstatusSolicitud" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="TCMO_Trama_TCMO_TipoSolicitud_FK">
+          <End Role="TCMO_TipoSolicitud" Type="Self.TCMO_TipoSolicitud" Multiplicity="1" />
+          <End Role="TCMO_Trama" Type="Self.TCMO_Trama" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TCMO_TipoSolicitud">
+              <PropertyRef Name="IdTipoSolicitud" />
+            </Principal>
+            <Dependent Role="TCMO_Trama">
+              <PropertyRef Name="TCMO_TipoSolicitud_IdTipoSolicitud" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="TTMO_ResultadoEnvio_TCMO_TipoSolicitud_FK">
+          <End Role="TCMO_TipoSolicitud" Type="Self.TCMO_TipoSolicitud" Multiplicity="1" />
+          <End Role="TTMO_ResultadoEnvio" Type="Self.TTMO_ResultadoEnvio" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TCMO_TipoSolicitud">
+              <PropertyRef Name="IdTipoSolicitud" />
+            </Principal>
+            <Dependent Role="TTMO_ResultadoEnvio">
+              <PropertyRef Name="TCMO_TipoSolicitud_IdTipoSolicitud" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="TTMO_Solicitud_TCMO_TipoSolicitud_FK">
+          <End Role="TCMO_TipoSolicitud" Type="Self.TCMO_TipoSolicitud" Multiplicity="1" />
+          <End Role="TTMO_Solicitud" Type="Self.TTMO_Solicitud" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TCMO_TipoSolicitud">
+              <PropertyRef Name="IdTipoSolicitud" />
+            </Principal>
+            <Dependent Role="TTMO_Solicitud">
+              <PropertyRef Name="TCMO_TipoSolicitud_IdTipoSolicitud" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="TTMO_ResultadoEnvio_TTMO_Solicitud_FK">
+          <End Role="TTMO_Solicitud" Type="Self.TTMO_Solicitud" Multiplicity="1" />
+          <End Role="TTMO_ResultadoEnvio" Type="Self.TTMO_ResultadoEnvio" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TTMO_Solicitud">
+              <PropertyRef Name="CD_Solicitud" />
+            </Principal>
+            <Dependent Role="TTMO_ResultadoEnvio">
+              <PropertyRef Name="TTMO_Solicitud_CD_Solicitud" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="Navimex_Mo2Entities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="TCMO_EstatusEnvio" EntityType="Self.TCMO_EstatusEnvio" />
+          <EntitySet Name="TCMO_EstatusSolicitud" EntityType="Self.TCMO_EstatusSolicitud" />
+          <EntitySet Name="TCMO_TipoSolicitud" EntityType="Self.TCMO_TipoSolicitud" />
+          <EntitySet Name="TCMO_Trama" EntityType="Self.TCMO_Trama" />
+          <EntitySet Name="TTMO_ResultadoEnvio" EntityType="Self.TTMO_ResultadoEnvio" />
+          <EntitySet Name="TTMO_Solicitud" EntityType="Self.TTMO_Solicitud" />
+          <AssociationSet Name="TTMO_ResultadoEnvio_TCMO_EstatusEnvio_FK" Association="Self.TTMO_ResultadoEnvio_TCMO_EstatusEnvio_FK">
+            <End Role="TCMO_EstatusEnvio" EntitySet="TCMO_EstatusEnvio" />
+            <End Role="TTMO_ResultadoEnvio" EntitySet="TTMO_ResultadoEnvio" />
+          </AssociationSet>
+          <AssociationSet Name="TTMO_Solicitud_TCMO_EstatusSolicitud_FK" Association="Self.TTMO_Solicitud_TCMO_EstatusSolicitud_FK">
+            <End Role="TCMO_EstatusSolicitud" EntitySet="TCMO_EstatusSolicitud" />
+            <End Role="TTMO_Solicitud" EntitySet="TTMO_Solicitud" />
+          </AssociationSet>
+          <AssociationSet Name="TCMO_Trama_TCMO_TipoSolicitud_FK" Association="Self.TCMO_Trama_TCMO_TipoSolicitud_FK">
+            <End Role="TCMO_TipoSolicitud" EntitySet="TCMO_TipoSolicitud" />
+            <End Role="TCMO_Trama" EntitySet="TCMO_Trama" />
+          </AssociationSet>
+          <AssociationSet Name="TTMO_ResultadoEnvio_TCMO_TipoSolicitud_FK" Association="Self.TTMO_ResultadoEnvio_TCMO_TipoSolicitud_FK">
+            <End Role="TCMO_TipoSolicitud" EntitySet="TCMO_TipoSolicitud" />
+            <End Role="TTMO_ResultadoEnvio" EntitySet="TTMO_ResultadoEnvio" />
+          </AssociationSet>
+          <AssociationSet Name="TTMO_Solicitud_TCMO_TipoSolicitud_FK" Association="Self.TTMO_Solicitud_TCMO_TipoSolicitud_FK">
+            <End Role="TCMO_TipoSolicitud" EntitySet="TCMO_TipoSolicitud" />
+            <End Role="TTMO_Solicitud" EntitySet="TTMO_Solicitud" />
+          </AssociationSet>
+          <AssociationSet Name="TTMO_ResultadoEnvio_TTMO_Solicitud_FK" Association="Self.TTMO_ResultadoEnvio_TTMO_Solicitud_FK">
+            <End Role="TTMO_Solicitud" EntitySet="TTMO_Solicitud" />
+            <End Role="TTMO_ResultadoEnvio" EntitySet="TTMO_ResultadoEnvio" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="Navimex_Mo2ModelStoreContainer" CdmEntityContainer="Navimex_Mo2Entities">
+          <EntitySetMapping Name="TCMO_EstatusEnvio">
+            <EntityTypeMapping TypeName="Navimex_Mo2Model.TCMO_EstatusEnvio">
+              <MappingFragment StoreEntitySet="TCMO_EstatusEnvio">
+                <ScalarProperty Name="CD_EstatusEnvio" ColumnName="CD_EstatusEnvio" />
+                <ScalarProperty Name="TX_EstatusEnvio" ColumnName="TX_EstatusEnvio" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TCMO_EstatusSolicitud">
+            <EntityTypeMapping TypeName="Navimex_Mo2Model.TCMO_EstatusSolicitud">
+              <MappingFragment StoreEntitySet="TCMO_EstatusSolicitud">
+                <ScalarProperty Name="CD_EstatusSolicitud" ColumnName="CD_EstatusSolicitud" />
+                <ScalarProperty Name="TX_EstatusSolicitud" ColumnName="TX_EstatusSolicitud" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TCMO_TipoSolicitud">
+            <EntityTypeMapping TypeName="Navimex_Mo2Model.TCMO_TipoSolicitud">
+              <MappingFragment StoreEntitySet="TCMO_TipoSolicitud">
+                <ScalarProperty Name="IdTipoSolicitud" ColumnName="IdTipoSolicitud" />
+                <ScalarProperty Name="TX_Descripción" ColumnName="TX_Descripción" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TCMO_Trama">
+            <EntityTypeMapping TypeName="Navimex_Mo2Model.TCMO_Trama">
+              <MappingFragment StoreEntitySet="TCMO_Trama">
+                <ScalarProperty Name="CD_Trama" ColumnName="CD_Trama" />
+                <ScalarProperty Name="TX_Tabla" ColumnName="TX_Tabla" />
+                <ScalarProperty Name="TX_Campo" ColumnName="TX_Campo" />
+                <ScalarProperty Name="NU_Ancho" ColumnName="NU_Ancho" />
+                <ScalarProperty Name="ES_AnchoVariable" ColumnName="ES_AnchoVariable" />
+                <ScalarProperty Name="NU_AnchoVariable" ColumnName="NU_AnchoVariable" />
+                <ScalarProperty Name="ES_justificadoDerecha" ColumnName="ES_justificadoDerecha" />
+                <ScalarProperty Name="ES_JustificadoIzquierda" ColumnName="ES_JustificadoIzquierda" />
+                <ScalarProperty Name="TX_CaracterDeRelleno" ColumnName="TX_CaracterDeRelleno" />
+                <ScalarProperty Name="NU_Secuencia" ColumnName="NU_Secuencia" />
+                <ScalarProperty Name="TCMO_TipoSolicitud_IdTipoSolicitud" ColumnName="TCMO_TipoSolicitud_IdTipoSolicitud" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TTMO_ResultadoEnvio">
+            <EntityTypeMapping TypeName="Navimex_Mo2Model.TTMO_ResultadoEnvio">
+              <MappingFragment StoreEntitySet="TTMO_ResultadoEnvio">
+                <ScalarProperty Name="CD_ResultadoEnvio" ColumnName="CD_ResultadoEnvio" />
+                <ScalarProperty Name="TTMO_Solicitud_CD_Solicitud" ColumnName="TTMO_Solicitud_CD_Solicitud" />
+                <ScalarProperty Name="TCMO_EstatusEnvio_CD_EstatusEnvio" ColumnName="TCMO_EstatusEnvio_CD_EstatusEnvio" />
+                <ScalarProperty Name="FH_Envio" ColumnName="FH_Envio" />
+                <ScalarProperty Name="FH_Respuesta" ColumnName="FH_Respuesta" />
+                <ScalarProperty Name="TX_Respuesta" ColumnName="TX_Respuesta" />
+                <ScalarProperty Name="TX_Envio" ColumnName="TX_Envio" />
+                <ScalarProperty Name="TCMO_TipoSolicitud_IdTipoSolicitud" ColumnName="TCMO_TipoSolicitud_IdTipoSolicitud" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TTMO_Solicitud">
+            <EntityTypeMapping TypeName="Navimex_Mo2Model.TTMO_Solicitud">
+              <MappingFragment StoreEntitySet="TTMO_Solicitud">
+                <ScalarProperty Name="CD_Solicitud" ColumnName="CD_Solicitud" />
+                <ScalarProperty Name="TCMO_EstatusSolicitud_CD_EstatusSolicitud" ColumnName="TCMO_EstatusSolicitud_CD_EstatusSolicitud" />
+                <ScalarProperty Name="NU_job" ColumnName="NU_job" />
+                <ScalarProperty Name="NU_Serie" ColumnName="NU_Serie" />
+                <ScalarProperty Name="NU_customer" ColumnName="NU_customer" />
+                <ScalarProperty Name="NU_deliveryAddress" ColumnName="NU_deliveryAddress" />
+                <ScalarProperty Name="TX_TermDelivery" ColumnName="TX_TermDelivery" />
+                <ScalarProperty Name="NU_TermPayment" ColumnName="NU_TermPayment" />
+                <ScalarProperty Name="TX_ForwardAgent" ColumnName="TX_ForwardAgent" />
+                <ScalarProperty Name="TX_Country" ColumnName="TX_Country" />
+                <ScalarProperty Name="TX_Refb" ColumnName="TX_Refb" />
+                <ScalarProperty Name="NU_Position" ColumnName="NU_Position" />
+                <ScalarProperty Name="TX_Item" ColumnName="TX_Item" />
+                <ScalarProperty Name="NU_Quantity" ColumnName="NU_Quantity" />
+                <ScalarProperty Name="IM_Price" ColumnName="IM_Price" />
+                <ScalarProperty Name="NU_Currency" ColumnName="NU_Currency" />
+                <ScalarProperty Name="IM_Amount" ColumnName="IM_Amount" />
+                <ScalarProperty Name="TCMO_TipoSolicitud_IdTipoSolicitud" ColumnName="TCMO_TipoSolicitud_IdTipoSolicitud" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
